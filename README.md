@@ -77,8 +77,6 @@ Remember to allow auto assigning of public IP from the public sunet settings
 14. Create Wordpress site Security group (Allow traffic from internal ALB)
 15. Create Security group for Tooling site (Allow traffic from internal ALB)
 16. Create SG for data layer (RDS and EFS)
-
-**Compute resources section**
 17. Create an External facing Application Load Balancer (ALB)
 18. Create a Listener (port 80) and target group
 19. Update VPC settings to enable DNS Hostnames
