@@ -42,31 +42,20 @@ Always make reference to the architectural diagram and ensure that your configur
 7. Create 2 Elastic IPs for NAT gateway one per zone
 
 VPC Range 10.0.0.0/16; remember to enable domain name resolution after creating th VPC
-6 Subnets: 2 pub sub, 3 priv sub
-2 Zones: eu-north-1a, eu-north-1b
-10.0.1.0/24 => pub-sub1 [eu-north-1a]
-10.0.1.0/24 => pub-sub2 [eu-north-1b]
-10.0.1.0/24 => priv-sub1 [eu-north-1a]
-10.0.1.0/24 => priv-sub2 [eu-north-1b]
-10.0.1.0/24 => priv-sub3 [eu-north-1a]
-10.0.1.0/24 => priv-sub4 [eu-north-1b]
+* 6 Subnets: 2 pub sub, 3 priv sub
+* 2 Zones: eu-north-1a, eu-north-1b
+* 10.0.1.0/24 => pub-sub1 [eu-north-1a]
+* 10.0.1.0/24 => pub-sub2 [eu-north-1b]
+* 10.0.1.0/24 => priv-sub1 [eu-north-1a]
+* 10.0.1.0/24 => priv-sub2 [eu-north-1b]
+* 10.0.1.0/24 => priv-sub3 [eu-north-1a]
+* 10.0.1.0/24 => priv-sub4 [eu-north-1b]
+
 Remember to allow auto assigning of public IP from the public sunet settings
-1 Internet Gateway => To enable VPC access to the internet
-2 NAT Gatway => For routing traffic to the internet from private subnet
-2 Elastic IP => Static IP for NAT Gateway
-2 Route Tables => 1 pub-Sub RT, 1 priv-sub RT: RT determines where traffic is directed to
-
-## Security Group
-
-Create a Security Group for:
-
-**Nginx Servers:** Access to Nginx should only be allowed from a Application Load balancer (ALB). At this point, we have not created a load balancer, therefore we will update the rules later. For now, just create it and put some dummy records as a place holder.
-**Bastion Servers:** Access to the Bastion servers should be allowed only from workstations that need to SSH into the bastion servers. Hence, you can use your workstation public IP address. To get this information, simply go to your terminal and type curl www.canhazip.com
-**Application Load Balancer:** ALB will be available from the Internet
-**Webservers:** Access to Webservers should only be allowed from the Nginx servers. Since we do not have the servers created yet, just put some dummy records as a place holder, we will update it later.
-**Data Layer:** Access to the Data layer, which is comprised of Amazon Relational Database Service (RDS) and Amazon Elastic File System (EFS) must be carefully desinged - only webservers should be able to connect to RDS, while Nginx and Webservers will have access to EFS Mountpoint.
-
-The security group should start from the outside: external LB, Bastion, NGINX, Internal LB, Webservers and datalayer SG
+* 1 Internet Gateway => To enable VPC access to the internet
+* 2 NAT Gatway => For routing traffic to the internet from private subnet
+* 2 Elastic IP => Static IP for NAT Gateway
+* 2 Route Tables => 1 pub-Sub RT, 1 priv-sub RT: RT determines where traffic is directed to
 
 
 ## Steps to be taken to achieve project AIM
@@ -164,6 +153,9 @@ Webservers: Access to Webservers should only be allowed from the Nginx servers. 
 
 **- Data Layer:** Access to the Data layer, which is comprised of Amazon Relational Database Service (RDS) and Amazon Elastic File System (EFS) must be carefully desinged – only webservers should be able to connect to RDS, while Nginx and Webservers will have access to EFS Mountpoint.
 
+The security group should start from the outside: external LB, Bastion, NGINX, Internal LB, Webservers and datalayer SG
+
+
 ## Compute Resources
 
 You will need to set up and configure compute resources inside your VPC. The recources related to compute are:
@@ -231,7 +223,6 @@ To configure RDS, follow steps below:
 
 - Enable CloudWatch monitoring and export Error and Slow Query logs (for production, also include Audit)
 
-Database Script is [here](rds.sh)
   #
 ## Creating AMIs for Launch Templates
 
@@ -343,6 +334,8 @@ Nginx EC2 Instances will have configurations that accepts incoming traffic only 
 - Create databases 
 
  ![database](<Images/creating database tooling and wordpress.PNG>)
+
+ Database Script is [here](rds.sh)
 
 
 ## Adding URL EndPoints to Route53 for Wordpress and Tooling Access
